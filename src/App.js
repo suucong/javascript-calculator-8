@@ -6,8 +6,18 @@ class App {
       "덧셈할 문자열을 입력해 주세요. \n"
     );
 
-    Console.print(`결과 : ${input}`);
+    const result = calculate(input);
+
+    Console.print(`결과 : ${result}`);
   }
+}
+
+function calculate(inputString) {
+  if (inputString === "") {
+    return 0;
+  }
+
+  return inputString;
 }
 
 export default App;
