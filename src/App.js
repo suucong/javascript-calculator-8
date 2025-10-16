@@ -13,13 +13,23 @@ class App {
 }
 
 function calculate(inputString) {
-  if (inputString === "") {
-    return 0;
-  }
+  if (inputString === "") return 0;
 
   const { delimiters, numberString } = parseDelimiters(inputString);
+  if (!numberString || numberString.trim() === "") return 0;
 
-  return inputString; // 임시 반환
+  // 정규식 세팅(특수문자 escape 처리)
+  const escapedDelimiters = delimiters.map((d) =>
+    d.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  );
+  const regex = new RegExp(escapedDelimiters.join("|"));
+
+  // 숫자 변환 및 합산
+  const tokens = numberString.split(regex);
+  const numbers = tokens.map((token) => Number(token));
+  const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+
+  return sum;
 }
 
 function parseDelimiters(inputString) {
