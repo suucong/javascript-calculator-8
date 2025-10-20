@@ -2,16 +2,12 @@ import { Console } from "@woowacourse/mission-utils";
 
 class App {
   async run() {
-    try {
-      const input = (
-        await Console.readLineAsync("덧셈할 문자열을 입력해 주세요. \n")
-      ).trim();
+    const input = (
+      await Console.readLineAsync("덧셈할 문자열을 입력해 주세요. \n")
+    ).trim();
 
-      const result = calculate(input);
-      Console.print(`결과 : ${result}`);
-    } catch (error) {
-      Console.print(error.message);
-    }
+    const result = calculate(input);
+    Console.print(`결과 : ${result}`);
   }
 }
 
@@ -51,9 +47,17 @@ function parseNumbers(numberString, delimiters) {
 
   const tokens = numberString.split(regex);
   const numbers = tokens.map((token) => {
+    if (token.trim() === "") {
+      throw new Error("[ERROR] 잘못된 입력 형식입니다.");
+    }
+
     const number = Number(token);
     if (isNaN(number)) {
       throw new Error("[ERROR] 숫자가 아닌 값이 포함되어 있습니다.");
+    }
+
+    if (number < 0) {
+      throw new Error("[ERROR] 음수는 허용되지 않습니다.");
     }
 
     return number;
