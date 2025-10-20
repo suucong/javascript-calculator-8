@@ -31,6 +31,10 @@ function parseDelimiters(inputString) {
     const parts = inputString.split(/\n|\\n/);
     const customDelimiter = parts[0].substring(2);
 
+    if (/\d/.test(customDelimiter)) {
+      throw new Error("[ERROR] 구분자로 숫자를 사용할 수 없습니다.");
+    }
+
     delimiters.push(customDelimiter);
     numberString = parts[1];
   }
